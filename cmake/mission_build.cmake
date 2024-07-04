@@ -533,9 +533,7 @@ endfunction(prepare)
 # This is where the real work is done
 #
 function(process_arch TARGETSYSTEM)
-
   # The "BUILD_CONFIG" is a list of items to uniquely identify this build
-  # The first element in the list is the toolchain name, followed by config name(s)
   set(BUILD_CONFIG ${BUILD_CONFIG_${TARGETSYSTEM}})
   list(GET BUILD_CONFIG 0 ARCH_TOOLCHAIN_NAME)
   list(REMOVE_AT BUILD_CONFIG 0)
@@ -622,3 +620,6 @@ function(process_arch TARGETSYSTEM)
   add_dependencies(mission-cfetables ${TARGETSYSTEM}-cfetables)
 
 endfunction(process_arch TARGETSYSTEM)
+
+# process_arch(${CPU1_NAME})
+# process_arch(${CPU2_NAME})
