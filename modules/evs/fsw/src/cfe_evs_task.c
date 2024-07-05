@@ -226,6 +226,8 @@ void CFE_EVS_TaskMain(void)
 
         /* Pend on receipt of packet */
         Status = CFE_SB_ReceiveBuffer(&SBBufPtr, CFE_EVS_Global.EVS_CommandPipe, CFE_SB_PEND_FOREVER);
+        OS_printf("cfe_plotflomrm_cmd_topicid_to_midv(0): 0x%X\n", CFE_PLATFORM_CMD_TOPICID_TO_MIDV(0));
+        OS_printf("cfe_evs_cmd_mid: 0x%X\n", CFE_EVS_CMD_MID);
 
         CFE_ES_PerfLogEntry(CFE_MISSION_EVS_MAIN_PERF_ID);
 

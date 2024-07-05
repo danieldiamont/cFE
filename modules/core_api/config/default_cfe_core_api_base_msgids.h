@@ -44,6 +44,7 @@
  *          method of deconfliction is recommended.
  */
 #define CFE_CPU1_CMD_MID_BASE 0x1800
+#define CFE_CPU2_CMD_MID_BASE 0x1900
 
 /**
  * \brief Platform telemetry message ID base offset
@@ -56,6 +57,7 @@
  * See #CFE_CPU1_CMD_MID_BASE for more information
  */
 #define CFE_CPU1_TLM_MID_BASE 0x0800
+#define CFE_CPU2_TLM_MID_BASE 0x0900
 
 /**
  * \brief "Global" command message ID base offset
@@ -90,7 +92,13 @@
  * go through CFE_SB_ValueToMsgId() to obtain a properly-typed CFE_SB_MsgId_t
  * for interacting with SB APIs.
  */
+
+#if CPUNAME == cpu1
 #define CFE_PLATFORM_CMD_TOPICID_TO_MIDV(topic) (CFE_CPU1_CMD_MID_BASE | (topic))
+#else
+#define CFE_PLATFORM_CMD_TOPICID_TO_MIDV(topic) (CFE_CPU2_CMD_MID_BASE | (topic))
+#endif
+
 
 /**
  * \brief Convert a telemetry topic ID to a MsgID value
@@ -103,7 +111,11 @@
  * go through CFE_SB_ValueToMsgId() to obtain a properly-typed CFE_SB_MsgId_t
  * for interacting with SB APIs.
  */
+#if CPUNAME == cpu1
 #define CFE_PLATFORM_TLM_TOPICID_TO_MIDV(topic) (CFE_CPU1_TLM_MID_BASE | (topic))
+#else
+#define CFE_PLATFORM_TLM_TOPICID_TO_MIDV(topic) (CFE_CPU2_TLM_MID_BASE | (topic))
+#endif
 
 /**
  * \brief Convert a "global" command topic ID to a MsgID value
