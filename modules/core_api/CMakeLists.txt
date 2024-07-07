@@ -19,6 +19,18 @@ if (CFE_EDS_ENABLED_BUILD)
     target_compile_definitions(core_api INTERFACE CFE_EDS_ENABLED_BUILD)
 endif()
 
+if(NOT DEFINED CPU_TARGET)
+    message(FATAL_ERROR "CPU_TARGET MUST BE DEFINED")
+endif()
+
+if(CPU_TARGET STREQUAL "CPU1")
+    target_compile_definitions(core_api INTERFACE CPU1)
+elseif(CPU_TARGET STREQUAL "CPU2")
+    target_compile_definitions(core_api INTERFACE CPU2)
+else()
+    message(FATAL_ERROR "CPU_TARGET ${CPU_TARGET} MUST BE 'CPU1' OR 'CPU2'")
+endif()
+
 # Propagate any INTERFACE-level include dirs and compile definitions from
 # the modules into this abstract interface target
 foreach(MOD ${MISSION_CORE_MODULES})

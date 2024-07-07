@@ -93,9 +93,14 @@
  * for interacting with SB APIs.
  */
 
-#if CPUNAME == cpu1
+#if !defined(CPU1) && !defined(CPU2)
+#error "Either CPU1 or CPU2 must be defined"
+#endif
+
+
+#ifdef CPU1
 #define CFE_PLATFORM_CMD_TOPICID_TO_MIDV(topic) (CFE_CPU1_CMD_MID_BASE | (topic))
-#else
+#elif defined(CPU2)
 #define CFE_PLATFORM_CMD_TOPICID_TO_MIDV(topic) (CFE_CPU2_CMD_MID_BASE | (topic))
 #endif
 
@@ -111,9 +116,9 @@
  * go through CFE_SB_ValueToMsgId() to obtain a properly-typed CFE_SB_MsgId_t
  * for interacting with SB APIs.
  */
-#if CPUNAME == cpu1
+#ifdef CPU1
 #define CFE_PLATFORM_TLM_TOPICID_TO_MIDV(topic) (CFE_CPU1_TLM_MID_BASE | (topic))
-#else
+#elif defined(CPU2)
 #define CFE_PLATFORM_TLM_TOPICID_TO_MIDV(topic) (CFE_CPU2_TLM_MID_BASE | (topic))
 #endif
 

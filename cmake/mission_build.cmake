@@ -561,6 +561,17 @@ function(process_arch TARGETSYSTEM)
     set(SELECTED_TOOLCHAIN_FILE)
   endif ()
 
+  # Extract CPU type from TARGETSYSTEM
+  string(REGEX MATCH "cpu[12]" CPU_TARGET ${TARGETSYSTEM})
+
+  if(CPU_TARGET STREQUAL "cpu1")
+    list(APPEND CMAKE_ARGS -DCPU_TARGET=CPU1)
+  elseif(CPU_TARGET STREQUAL "cpu2")
+    list(APPEND CMAKE_ARGS -DCPU_TARGET=CPU2)
+  else()
+    message(FATAL_ERROR "Invalid TARGETSYSTEM ${TARGETSYSTEM}. Must end with 'cpu1' or 'cpu2'")
+  endif()
+
   # Execute CMake subprocess to create a binary build tree for the specific CPU architecture
   execute_process(
     COMMAND ${CMAKE_COMMAND}
@@ -571,6 +582,7 @@ function(process_arch TARGETSYSTEM)
         -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
         -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=${CMAKE_EXPORT_COMPILE_COMMANDS}
         -DCFE_EDS_ENABLED_BUILD:BOOL=${CFE_EDS_ENABLED_BUILD}
+        ${CMAKE_ARGS}
         ${SELECTED_TOOLCHAIN_FILE}
         ${CFE_SOURCE_DIR}
     WORKING_DIRECTORY
